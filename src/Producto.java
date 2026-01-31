@@ -4,8 +4,8 @@ public class Producto {
 
     public static Scanner sc = new Scanner(System.in);
     public static String nombre = "N/A";
-    public static int cantidad = 0;
     public static double precioUnitario = 0.0;
+    public static int cantidad = 0;
     public static String estado = "N/A";
 
     public static void main(String[] args) throws Exception {
@@ -22,7 +22,7 @@ public class Producto {
                     mostrarProducto();
                     break;
                 case 3:
-                    System.out.printf("Valor Total en Inventario: %.2f%n", calcularValorTotalInventario());
+                    System.out.printf("Valor Total en Inventario: $%.2f%n", calcularValorTotalInventario());
                     break;
                 case 4:
                     mostrarResumen();
@@ -32,6 +32,7 @@ public class Producto {
                     break;
                 case 0:
                     System.out.println("Saliendo del sistema. ¡Hasta luego!");
+                    sc.close();
                     break;
                 default:
                     System.out.println("Opción inválida. Por favor, seleccione una opción válida.");
@@ -43,6 +44,7 @@ public class Producto {
      * Método para mostrar el menú de opciones
      */
     public static void mostrarMenu() {
+        System.out.println("");
         var opciones = """
                 --- Sistema de Gestión de Productos ---
 
@@ -101,7 +103,7 @@ public class Producto {
     public static double solicitarPrecio() {
         double precio;
         do {
-            System.out.print("Ingrese un precio (Mayor a 0): ");
+            System.out.print("(El precio debe ser mayor a 0): ");
             precio = sc.nextDouble();
             if (!esPrecioValido(precio)) {
                 System.out.println("Precio inválido. Debe ser mayor que 0");
@@ -116,7 +118,7 @@ public class Producto {
     public static int solicitarCantidad() {
         int cantidad;
         do {
-            System.out.print("Ingrese la cantidad (0 o mayor): ");
+            System.out.print("(La cantidad debe ser 0 o mayor): ");
             cantidad = sc.nextInt();
             if (!esCantidadValida(cantidad)) {
                 System.out.println("Cantidad inválida. Debe ser 0 o mayor");
@@ -133,7 +135,7 @@ public class Producto {
             System.out.println("No hay datos de producto registrados actualmente.");
         } else {
             System.out.println("Nombre del producto: " + nombre);
-            System.out.println("Precio Unitario: " + precioUnitario);
+            System.out.println("Precio Unitario: $" + precioUnitario);
             System.out.println("Cantidad en Inventario: " + cantidad);
         }
     }
@@ -159,7 +161,7 @@ public class Producto {
         } else {
             System.out.println("--- Resumen del Producto ---");
             mostrarProducto();
-            System.out.printf("Valor Total en Inventario: %.2f%n", calcularValorTotalInventario());
+            System.out.printf("Valor Total en Inventario: $%.2f%n", calcularValorTotalInventario());
             System.out.println("Estado del Stock: " + setEstadoStock());
         }
     }
