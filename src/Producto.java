@@ -6,9 +6,37 @@ public class Producto {
     public static String nombre = "N/A";
     public static int cantidad = 0;
     public static double precioUnitario = 0.0;
+    public static String estado = "N/A";
 
     public static void main(String[] args) throws Exception {
-        mostrarMenu();
+        int opcion;
+        do {
+            mostrarMenu();
+            opcion = sc.nextInt();
+            sc.nextLine(); // Limpiar el buffer
+            switch (opcion) {
+                case 1:
+                    registrarProducto();
+                    break;
+                case 2:
+                    mostrarProducto();
+                    break;
+                case 3:
+                    System.out.printf("Valor Total en Inventario: %.2f%n", calcularValorTotalInventario());
+                    break;
+                case 4:
+                    mostrarResumen();
+                    break;
+                case 5:
+                    limpiarDatos();
+                    break;
+                case 0:
+                    System.out.println("Saliendo del sistema. ¡Hasta luego!");
+                    break;
+                default:
+                    System.out.println("Opción inválida. Por favor, seleccione una opción válida.");
+            }
+        } while (opcion != 0);
     }
 
     /**
@@ -67,6 +95,9 @@ public class Producto {
         return cantidad >= 0;
     }
 
+    /**
+     * Método para solicitar un precio válido
+     */
     public static double solicitarPrecio() {
         double precio;
         do {
@@ -79,6 +110,9 @@ public class Producto {
         return precio;
     }
 
+    /**
+     * Método para solicitar una cantidad válida
+     */
     public static int solicitarCantidad() {
         int cantidad;
         do {
@@ -91,14 +125,67 @@ public class Producto {
         return cantidad;
     }
 
+    /**
+     * Método para mostrar la información del producto actual
+     */
     public static void mostrarProducto() {
         if (nombre.equals("N/A")) {
             System.out.println("No hay datos de producto registrados actualmente.");
         } else {
             System.out.println("Nombre del producto: " + nombre);
             System.out.println("Precio Unitario: " + precioUnitario);
-            System.out.println("Cantidad: " + cantidad);
+            System.out.println("Cantidad en Inventario: " + cantidad);
         }
+    }
+
+    /**
+     * Método para calcular el valor total del inventario
+     */
+    public static double calcularValorTotalInventario() {
+        if (nombre.equals("N/A")) {
+            System.out.println("No hay datos de producto registrados actualmente.");
+            return -1;
+        } else {
+            return precioUnitario * cantidad;
+        }
+    }
+
+    /**
+     * Método para mostrar un resumen completo del producto
+     */
+    public static void mostrarResumen() {
+        if (nombre.equals("N/A")) {
+            System.out.println("No hay datos de producto registrados actualmente.");
+        } else {
+            System.out.println("--- Resumen del Producto ---");
+            mostrarProducto();
+            System.out.printf("Valor Total en Inventario: %.2f%n", calcularValorTotalInventario());
+            System.out.println("Estado del Stock: " + setEstadoStock());
+        }
+    }
+
+    /**
+     * Método para determinar el estado del stock
+     */
+    public static String setEstadoStock() {
+        if (cantidad < 5) {
+            estado = "Stock bajo";
+        } else if (cantidad >= 5 && cantidad <= 20) {
+            estado = "Stock suficiente";
+        } else {
+            estado = "Stock alto";
+        }
+        return estado;
+    }
+
+    /**
+     * Método para limpiar los datos del producto actual
+     */
+    public static void limpiarDatos() {
+        nombre = "N/A";
+        precioUnitario = 0.0;
+        cantidad = 0;
+        System.out.println("Los datos del producto actual han sido borrados exitosamente.");
     }
 
 }
